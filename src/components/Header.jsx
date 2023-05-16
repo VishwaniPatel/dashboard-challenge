@@ -7,12 +7,12 @@ import {
   Burger,
   rem,
   Text,
+  Grid,
+  Flex,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { MantineLogo } from "@mantine/ds";
 import {
   IconActivity,
-  IconActivityHeartbeat,
   IconAlignCenter,
   IconArticle,
   IconCalendarEvent,
@@ -20,6 +20,7 @@ import {
   IconFile,
   IconList,
 } from "@tabler/icons-react";
+import ThemeChangeButton from "./ThemeChangeButton";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -49,7 +50,7 @@ const useStyles = createStyles((theme) => ({
     textDecoration: "none",
     color:
       theme.colorScheme === "dark"
-        ? theme.colors.dark[0]
+        ? theme.colors.dark[1]
         : theme.colors.gray[7],
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
@@ -74,52 +75,41 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-// interface HeaderUI {
-//   links: { link: string; label: string }[];
-// }
-
 export function HeaderUI({ links }) {
   const [opened, { toggle }] = useDisclosure(false);
-  //   const [active, setActive] = useState(links[0].link);
   const { classes, cx } = useStyles();
 
-  //   const items = links.map((link) => (
-  //     <a
-  //       key={link.label}
-  //       href={link.link}
-  //       className={cx(classes.link, {
-  //         [classes.linkActive]: active === link.link,
-  //       })}
-  //       onClick={(event) => {
-  //         event.preventDefault();
-  //         setActive(link.link);
-  //       }}
-  //     >
-  //       {link.label}
-  //     </a>
-  //   ));
-
   return (
-    <Header height={60}>
-      <Container className={classes.header}>
-        <Text>Govalle Construction </Text>
-        <Group spacing={5} className={classes.links}>
-          <IconList />
-          <IconChartBar />
-          <IconAlignCenter />
-          <IconArticle />
-          <IconActivity />
-          <IconCalendarEvent />
-          <IconFile />
-        </Group>
-
-        <Burger
-          opened={opened}
-          onClick={toggle}
-          className={classes.burger}
-          size="sm"
-        />
-      </Container>
+    <Header height={60} px={20} py={10}>
+      <Grid className={classes.header}>
+        <Grid.Col span={4}>
+          <Text fs={40}>Govalle Construction </Text>
+        </Grid.Col>
+        <Grid.Col span={4} className={classes.links}>
+          <Group spacing={10} className={classes.link}>
+            <Flex justify={"space-between"}>
+              <IconList />
+              <IconChartBar />
+              <IconAlignCenter />
+              <IconArticle />
+              <IconActivity />
+              <IconCalendarEvent />
+              <IconFile />
+            </Flex>
+          </Group>
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <Flex justify={"end"}>
+            <Burger
+              opened={opened}
+              onClick={toggle}
+              className={classes.burger}
+              size="sm"
+            />
+            <ThemeChangeButton />
+          </Flex>
+        </Grid.Col>
+      </Grid>
     </Header>
   );
 }

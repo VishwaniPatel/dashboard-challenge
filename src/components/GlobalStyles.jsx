@@ -11,7 +11,7 @@ function GlobalStyles() {
           margin: 0,
           padding: 0,
         },
-        "html,body,#root,.App": {
+        "html,body": {
           height: "100%",
         },
         "html,body": {
@@ -28,9 +28,6 @@ function GlobalStyles() {
         },
         ".flex-grow-1": {
           flexGrow: 1,
-        },
-        ".mantine-hr6aor": {
-          height: "100%",
         },
       })}
     />

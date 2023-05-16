@@ -18,10 +18,9 @@ import {
 
 const useStyles = createStyles((theme) => ({
   sidebar: {
-    height: "100%",
-    width: rem(100),
+    backgroundColor:
+      theme.colorScheme === "dark" ? theme.black[0] : theme.white[0],
   },
-
   footer: {
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
@@ -40,8 +39,8 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[1]
         : theme.colors.gray[7],
-    padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
-    borderRadius: theme.radius.sm,
+    padding: `${rem(15)} ${rem(15)}`,
+
     fontWeight: 500,
 
     "&:hover": {
@@ -63,7 +62,7 @@ const useStyles = createStyles((theme) => ({
       theme.colorScheme === "dark"
         ? theme.colors.dark[2]
         : theme.colors.gray[6],
-    marginRight: theme.spacing.sm,
+    // marginRight: theme.spacing.sm,
   },
 
   linkActive: {
@@ -99,7 +98,7 @@ export function Sidebar() {
   ));
 
   return (
-    <Navbar p="md" className={classes.sidebar}>
+    <Navbar width={{ base: 60 }} className={classes.sidebar}>
       <Navbar.Section className={classes.header}>{links}</Navbar.Section>
       <Navbar.Section className={classes.footer}>
         <a className={classes.link}>

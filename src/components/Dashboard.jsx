@@ -1,12 +1,29 @@
 import React from "react";
 import { Grid, createStyles, rem } from "@mantine/core";
+import HealthData from "./HealthData";
+import Tasks from "./Tasks";
+import Progress from "./Progress";
+import Cost from "./Cost";
+import Time from "./Time";
+import Workload from "./Workload";
 const useStyles = createStyles((theme) => ({
   wrapper: {
     height: "100%",
   },
   card: {
+    padding: `${rem(20)}`,
     backgroundColor:
-      theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+      theme.colorScheme === "dark" ? theme.colors.darktheme[0] : theme.white,
+    borderBottom: `${rem(1)} solid  ${
+      theme.colorScheme === "dark"
+        ? theme.colors.darktheme[9]
+        : theme.colors.darktheme[0]
+    }`,
+    borderRight: `${rem(1)} solid ${
+      theme.colorScheme === "dark"
+        ? theme.colors.darktheme[9]
+        : theme.colors.darktheme[0]
+    }`,
   },
 }));
 const Dashboard = () => {
@@ -14,22 +31,22 @@ const Dashboard = () => {
   return (
     <Grid gutter={0} className={classes.wrapper}>
       <Grid.Col span={4} className={classes.card}>
-        1
+        <HealthData />
       </Grid.Col>
       <Grid.Col span={4} className={classes.card}>
-        2
+        <Tasks />
       </Grid.Col>
       <Grid.Col span={4} className={classes.card}>
-        3
+        <Progress />
       </Grid.Col>
       <Grid.Col span={4} className={classes.card}>
-        4
+        <Time />
       </Grid.Col>
       <Grid.Col span={4} className={classes.card}>
-        5
+        <Cost />
       </Grid.Col>
       <Grid.Col span={4} className={classes.card}>
-        6
+        <Workload />
       </Grid.Col>
     </Grid>
   );
