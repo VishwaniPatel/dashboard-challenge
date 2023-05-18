@@ -5,7 +5,7 @@ import { Global } from "@mantine/core";
 function GlobalStyles() {
   return (
     <Global
-      styles={() => ({
+      styles={(theme) => ({
         "*, *::before, *::after": {
           boxSizing: "border-box",
           margin: 0,
@@ -16,18 +16,6 @@ function GlobalStyles() {
         },
         "html,body": {
           overflowX: "hidden",
-        },
-        ".h-100": {
-          height: "100%",
-        },
-        ".w-100": {
-          width: "100%",
-        },
-        ".d-flex": {
-          display: "flex",
-        },
-        ".flex-grow-1": {
-          flexGrow: 1,
         },
       })}
     />

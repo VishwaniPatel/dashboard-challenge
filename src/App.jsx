@@ -22,12 +22,6 @@ const App = () => {
     setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
 
   useHotkeys([["ctrl+J", () => toggleColorScheme()]]);
-  const customStyles = createStyles((theme) => ({
-    darkText: {
-      color:
-        theme.colorScheme === "dark" ? theme.colors.darktheme[9] : undefined,
-    },
-  }));
 
   return (
     <ColorSchemeProvider
@@ -35,7 +29,6 @@ const App = () => {
       toggleColorScheme={toggleColorScheme}
     >
       <MantineProvider
-        styles={customStyles}
         theme={{
           colorScheme,
           fontFamily: "Inter, sans-serif",

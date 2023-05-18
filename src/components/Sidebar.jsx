@@ -1,13 +1,14 @@
 import {
   createStyles,
   Navbar,
-  Group,
-  Code,
+  Flex,
+  Text,
+  Stack,
   getStylesRef,
   rem,
+  Avatar,
 } from "@mantine/core";
 import {
-  IconDeviceDesktopAnalytics,
   IconHome,
   IconClock,
   IconUsers,
@@ -16,17 +17,46 @@ import {
   IconHelpCircle,
 } from "@tabler/icons-react";
 
+import userImg from "../assets/images/Profile.png";
+
 const useStyles = createStyles((theme) => ({
   sidebar: {
-    backgroundColor:
-      theme.colorScheme === "dark" ? theme.black[0] : theme.white[0],
+    color: theme.colorScheme === "dark" ? "white" : "black",
+    backgroundColor: theme.colorScheme === "dark" ? "black" : "white",
+
+    borderRight: `${rem(1)} solid black`,
   },
+  logo: {
+    height: 60,
+    width: 60,
+    padding: 10,
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : "black"
+    }`,
+  },
+  logoTitle: {
+    height: 40,
+    width: 40,
+    border: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? "white" : "black"
+    }`,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: "50%",
+  },
+  box: {
+    paddingBottom: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : "black"
+    }`,
+  },
+
   footer: {
     paddingTop: theme.spacing.md,
     marginTop: theme.spacing.md,
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2]
-    }`,
+    display: "flex",
   },
 
   link: {
@@ -35,10 +65,7 @@ const useStyles = createStyles((theme) => ({
     alignItems: "center",
     textDecoration: "none",
     fontSize: theme.fontSizes.sm,
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[1]
-        : theme.colors.gray[7],
+    color: theme.colorScheme === "dark" ? "white" : "black",
     padding: `${rem(15)} ${rem(15)}`,
 
     fontWeight: 500,
@@ -48,21 +75,17 @@ const useStyles = createStyles((theme) => ({
         theme.colorScheme === "dark"
           ? theme.colors.dark[6]
           : theme.colors.gray[0],
-      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      color: theme.colorScheme === "dark" ? "white" : "black",
 
       [`& .${getStylesRef("icon")}`]: {
-        color: theme.colorScheme === "dark" ? theme.white : theme.black,
+        color: theme.colorScheme === "dark" ? "white" : "black",
       },
     },
   },
 
   linkIcon: {
     ref: getStylesRef("icon"),
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[2]
-        : theme.colors.gray[6],
-    // marginRight: theme.spacing.sm,
+    color: theme.colorScheme === "dark" ? "white" : "black",
   },
 
   linkActive: {
@@ -81,33 +104,49 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const data = [
-  { link: "", icon: IconHome },
-  { link: "", icon: IconClock },
-  { link: "", icon: IconUsers },
-  { link: "", icon: IconBriefcase },
-];
-
 export function Sidebar() {
-  const { classes, cx } = useStyles();
-
-  const links = data.map((item, index) => (
-    <a className={cx(classes.link)} key={index}>
-      <item.icon className={classes.linkIcon} stroke={1.5} />
-    </a>
-  ));
+  const { classes } = useStyles();
 
   return (
     <Navbar width={{ base: 60 }} className={classes.sidebar}>
-      <Navbar.Section className={classes.header}>{links}</Navbar.Section>
-      <Navbar.Section className={classes.footer}>
+      <Navbar.Section className={classes.logo}>
+        <div className={classes.logoTitle}>
+          <Text>PM</Text>
+          {/* <Avatar size="md" radius="xl" color="white">
+            PM
+          </Avatar> */}
+        </div>
+      </Navbar.Section>
+      <Navbar.Section className={classes.box}>
         <a className={classes.link}>
-          <IconPlus className={classes.linkIcon} stroke={1.5} />
+          <IconHome className={classes.linkIcon} stroke={1.5} />
         </a>
+        <a className={classes.link}>
+          <IconClock className={classes.linkIcon} stroke={1.5} />
+        </a>
+      </Navbar.Section>
+      <Navbar.Section>
+        <a className={classes.link}>
+          <IconUsers className={classes.linkIcon} stroke={1.5} />
+        </a>
+        <a className={classes.link}>
+          <IconBriefcase className={classes.linkIcon} stroke={1.5} />
+        </a>
+      </Navbar.Section>
 
-        <a className={classes.link}>
-          <IconHelpCircle className={classes.linkIcon} stroke={1.5} />
-        </a>
+      <Navbar.Section grow className={classes.footer}>
+        <Stack justify="flex-end">
+          <a className={classes.link}>
+            <IconPlus className={classes.linkIcon} stroke={1.5} />
+          </a>
+
+          <a className={classes.link}>
+            <IconHelpCircle className={classes.linkIcon} stroke={1.5} />
+          </a>
+          <a className={classes.link}>
+            <Avatar src={userImg} alt="user" size="sm" radius="xl" />
+          </a>
+        </Stack>
       </Navbar.Section>
     </Navbar>
   );

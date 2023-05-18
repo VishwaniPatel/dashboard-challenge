@@ -3,10 +3,10 @@ import { Sidebar } from "./Sidebar";
 import { HeaderUI } from "./Header";
 import Dashboard from "./Dashboard";
 
-function AppShellUI() {
+function AppShellUI(theme) {
   return (
     <AppShell
-      header={<HeaderUI />}
+      layout="alt"
       navbar={<Sidebar />}
       styles={(theme) => ({
         main: {
@@ -17,6 +17,7 @@ function AppShellUI() {
         },
       })}
     >
+      <HeaderUI />
       <Dashboard />
     </AppShell>
   );

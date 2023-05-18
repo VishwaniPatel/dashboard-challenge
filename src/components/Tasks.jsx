@@ -1,12 +1,29 @@
 import React, { useEffect } from "react";
 import Chart from "chart.js/auto";
-import { Flex, Group, Text } from "@mantine/core";
+import { Flex, Group, Text, createStyles } from "@mantine/core";
 import {
   IconArrowsMaximize,
   IconHelp,
   IconSettings,
 } from "@tabler/icons-react";
+const useStyles = createStyles((theme) => ({
+  task: {
+    color: theme.colorScheme === "dark" ? "white" : "black",
+  },
+  icons: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+  },
+
+  chart: {
+    height: 300,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
+}));
 const Tasks = () => {
+  const { classes } = useStyles();
   useEffect(() => {
     (async function () {
       const data = {
@@ -15,10 +32,11 @@ const Tasks = () => {
           {
             label: "Task",
             data: [10, 6, 2],
-            backgroundColor: ["#9ca3ac", "#68ca6c", "#51ccc3"],
             hoverOffset: 4,
-            //   borderWidth: 10,
-            cutout: "90%",
+            backgroundColor: ["#9ca3ac", "#68ca6c", "#51ccc3"],
+            borderWidth: 2,
+            borderColor: "black",
+            cutout: "84%",
           },
         ],
       };
@@ -31,6 +49,10 @@ const Tasks = () => {
             legend: {
               labels: {
                 usePointStyle: true,
+                color: "#9da4ad",
+                font: {
+                  size: 14,
+                },
               },
             },
           },
@@ -40,18 +62,20 @@ const Tasks = () => {
   }, []);
 
   return (
-    <Group>
+    <Group className={classes.task}>
       <Flex justify={"space-between"} w={"100%"}>
         <Text fw={700} size={25}>
           Tasks
         </Text>
         <Group>
-          <IconArrowsMaximize />
-          <IconSettings />
-          <IconHelp />
+          <IconArrowsMaximize className={classes.icons} stroke={1} />
+          <IconSettings className={classes.icons} stroke={1} />
+          <IconHelp className={classes.icons} stroke={1} />
         </Group>
       </Flex>
-      <canvas id="pie"></canvas>
+      <div className={classes.chart}>
+        <canvas id="pie"></canvas>
+      </div>
     </Group>
   );
 };

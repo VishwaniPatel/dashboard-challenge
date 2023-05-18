@@ -2,14 +2,16 @@ import { useState } from "react";
 import {
   createStyles,
   Header,
-  Container,
+  Menu,
   Group,
   Burger,
   rem,
   Text,
   Grid,
   Flex,
+  Avatar,
 } from "@mantine/core";
+import userImg from "../assets/images/Profile.png";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconActivity,
@@ -23,21 +25,32 @@ import {
 import ThemeChangeButton from "./ThemeChangeButton";
 
 const useStyles = createStyles((theme) => ({
+  wrapper: {
+    background:
+      theme.colorScheme === "dark" ? theme.colors.darktheme[0] : theme.white,
+    height: 60,
+    borderBottom: `${rem(1)} solid ${
+      theme.colorScheme === "dark" ? theme.colors.dark[4] : "black"
+    }`,
+  },
+
   header: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    height: "100%",
+    background:
+      theme.colorScheme === "dark" ? theme.colors.darktheme[0] : theme.white,
+    color: theme.colorScheme === "dark" ? "white" : "black",
   },
 
   links: {
-    [theme.fn.smallerThan("xs")]: {
+    [theme.fn.smallerThan("sm")]: {
       display: "none",
     },
   },
 
   burger: {
-    [theme.fn.largerThan("xs")]: {
+    [theme.fn.largerThan("sm")]: {
       display: "none",
     },
   },
@@ -48,10 +61,7 @@ const useStyles = createStyles((theme) => ({
     padding: `${rem(8)} ${rem(12)}`,
     borderRadius: theme.radius.sm,
     textDecoration: "none",
-    color:
-      theme.colorScheme === "dark"
-        ? theme.colors.dark[1]
-        : theme.colors.gray[7],
+    color: theme.colorScheme === "dark" ? "white" : "black",
     fontSize: theme.fontSizes.sm,
     fontWeight: 500,
 
@@ -75,37 +85,69 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-export function HeaderUI({ links }) {
+export function HeaderUI() {
   const [opened, { toggle }] = useDisclosure(false);
-  const { classes, cx } = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <Header height={60} px={20} py={10}>
+    <Header px={20} py={10} className={classes.wrapper}>
       <Grid className={classes.header}>
         <Grid.Col span={4}>
-          <Text fs={40}>Govalle Construction </Text>
+          <Flex>
+            <Text size={25} mr={20} className={classes.links}>
+              Govalle Construction
+            </Text>
+            <Avatar.Group spacing="sm">
+              <Avatar src={userImg} alt="user" radius="xl" />
+              <Avatar color="#447c9e" radius="xl">
+                GP
+              </Avatar>
+            </Avatar.Group>
+          </Flex>
         </Grid.Col>
         <Grid.Col span={4} className={classes.links}>
           <Group spacing={10} className={classes.link}>
             <Flex justify={"space-between"}>
-              <IconList />
-              <IconChartBar />
-              <IconAlignCenter />
-              <IconArticle />
-              <IconActivity />
-              <IconCalendarEvent />
-              <IconFile />
+              <IconList stroke={1.5} size={20} color="#b6bdc6" />
+              <IconChartBar stroke={1.5} size={20} color="#b6bdc6" />
+              <IconAlignCenter stroke={1.5} size={20} color="#b6bdc6" />
+              <IconArticle stroke={1.5} size={20} color="#b6bdc6" />
+              <IconActivity stroke={1.5} size={20} color="#b6bdc6" />
+              <IconCalendarEvent stroke={1.5} size={20} color="#b6bdc6" />
+              <IconFile stroke={1.5} size={20} color="#b6bdc6" />
             </Flex>
           </Group>
         </Grid.Col>
         <Grid.Col span={4}>
           <Flex justify={"end"}>
-            <Burger
-              opened={opened}
-              onClick={toggle}
-              className={classes.burger}
-              size="sm"
-            />
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Burger
+                  opened={opened}
+                  onClick={toggle}
+                  className={classes.burger}
+                  size="sm"
+                />
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item icon={<IconList size={14} />}>
+                  List of Activities
+                </Menu.Item>
+                <Menu.Item icon={<IconChartBar size={14} />}>
+                  Activities
+                </Menu.Item>
+                <Menu.Item icon={<IconAlignCenter size={14} />}>
+                  Dashboard
+                </Menu.Item>
+                <Menu.Item icon={<IconArticle size={14} />}>Article</Menu.Item>
+                <Menu.Item icon={<IconCalendarEvent size={14} />}>
+                  Calender
+                </Menu.Item>
+                <Menu.Item icon={<IconFile size={14} />}>My Files</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+
             <ThemeChangeButton />
           </Flex>
         </Grid.Col>

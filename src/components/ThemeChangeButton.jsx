@@ -10,7 +10,7 @@ const ThemeChangeButton = () => {
         variant="outline"
         color={dark ? "yellow" : "blue"}
         onClick={() => toggleColorScheme()}
-        title="Toggle color scheme"
+        title="Change color theme"
       >
         {dark ? <IconSun size="1.1rem" /> : <IconMoonStars size="1.1rem" />}
       </ActionIcon>
