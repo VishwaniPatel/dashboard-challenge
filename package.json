@@ -2,7 +2,8 @@
   "name": "dashboard-challenge",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+
+  "source":"index.html",
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build",
