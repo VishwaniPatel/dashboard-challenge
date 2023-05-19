@@ -1,14 +1,20 @@
 import React from "react";
-import { Table, Text, Flex, Group } from "@mantine/core";
+import { Table, Text, Flex, Group, createStyles } from "@mantine/core";
 import { IconHelp } from "@tabler/icons-react";
 const HealthData = () => {
+  const useStyles = createStyles((theme) => ({
+    icons: {
+      color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+    },
+  }));
+  const { classes } = useStyles();
   return (
     <Group>
       <Flex justify={"space-between"} align={"center"} w={"100%"}>
         <Text fw={700} size={25}>
           Health
         </Text>
-        <IconHelp stroke={1.5} />
+        <IconHelp className={classes.icons} stroke={1} />
       </Flex>
       <Table>
         <tbody>

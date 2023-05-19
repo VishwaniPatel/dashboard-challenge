@@ -6,10 +6,13 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 import React, { useEffect } from "react";
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   chart: {
     height: 300,
     width: "100%",
+  },
+  icons: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
   },
 }));
 const Progress = () => {
@@ -113,9 +116,9 @@ const Progress = () => {
           Progress
         </Text>
         <Group>
-          <IconArrowsMaximize />
-          <IconSettings />
-          <IconHelp />
+          <IconArrowsMaximize className={classes.icons} stroke={1} />
+          <IconSettings className={classes.icons} stroke={1} />
+          <IconHelp className={classes.icons} stroke={1} />
         </Group>
       </Flex>
       <div className={classes.chart}>
