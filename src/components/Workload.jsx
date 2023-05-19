@@ -1,5 +1,11 @@
-import React, { useEffect } from "react";
-import { Flex, Group, Text, createStyles } from "@mantine/core";
+import React, { useEffect, useRef } from "react";
+import {
+  Flex,
+  Group,
+  Text,
+  createStyles,
+  useMantineTheme,
+} from "@mantine/core";
 import Chart from "chart.js/auto";
 import {
   IconArrowsMaximize,
@@ -7,19 +13,23 @@ import {
   IconSettings,
 } from "@tabler/icons-react";
 
+const useStyles = createStyles((theme) => ({
+  chart: {
+    height: 300,
+    width: "100%",
+  },
+  icons: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+  },
+}));
+
 const Workload = () => {
-  const useStyles = createStyles((theme) => ({
-    chart: {
-      height: 300,
-      width: "100%",
-    },
-    icons: {
-      color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
-    },
-  }));
   const { classes } = useStyles();
+  const chartRef = useRef(null);
+  const theme = useMantineTheme();
+
   useEffect(() => {
-    let barChart;
+    let workloadChart;
 
     const createChart = () => {
       const labels = ["Mike", "Jennifer", "Brandon", "Sam", "George"];
@@ -67,7 +77,7 @@ const Workload = () => {
               },
               ticks: {
                 crossAlign: "far",
-                color: "white",
+                color: theme.colorScheme === "dark" ? "white" : "black",
                 font: { size: 14 },
               },
             },
@@ -77,33 +87,24 @@ const Workload = () => {
               stacked: true,
               ticks: {
                 stepSize: 2,
-                color: "white",
+                color: theme.colorScheme === "dark" ? "white" : "black",
                 font: { size: 14 },
               },
               grid: {
-                color: "#9da4ad",
+                color: theme.colorScheme === "dark" ? "#9da4ad" : "black",
                 lineWidth: 0.2,
               },
               border: {
                 display: false,
               },
             },
-            afterFit: function (scale) {
-              scale.width = 100;
-            },
           },
-          // elements: {
-          //   bar: {
-          //     borderWidth: 2,
-          //   },
-          // },
-          // responsive: true,
           plugins: {
             legend: {
               align: "start",
               labels: {
                 usePointStyle: true,
-                color: "#9da4ad",
+                color: theme.colorScheme === "dark" ? "#9da4ad" : "black",
                 font: { size: 14 },
               },
             },
@@ -111,25 +112,31 @@ const Workload = () => {
         },
       };
 
-      const canvas = document.getElementById("workload");
-      const existingChart = Chart.getChart(canvas);
+      if (chartRef.current) {
+        const ctx = chartRef.current.getContext("2d");
 
-      if (existingChart) {
-        existingChart.destroy();
+        if (workloadChart) {
+          workloadChart.destroy();
+        }
+
+        workloadChart = new Chart(ctx, config);
       }
+    };
 
-      barChart = new Chart(canvas, config);
+    const handleResize = () => {
+      createChart();
     };
 
     createChart();
+    window.addEventListener("resize", handleResize);
 
-    // Clean up function
     return () => {
-      if (barChart) {
-        barChart.destroy();
+      if (workloadChart) {
+        workloadChart.destroy();
       }
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <Group>
@@ -144,7 +151,7 @@ const Workload = () => {
         </Group>
       </Flex>
       <div className={classes.chart}>
-        <canvas id="workload"></canvas>
+        <canvas ref={chartRef}></canvas>
       </div>
     </Group>
   );

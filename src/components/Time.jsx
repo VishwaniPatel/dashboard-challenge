@@ -1,55 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-import { Flex, Group, Text, createStyles } from "@mantine/core";
+import {
+  Flex,
+  Group,
+  Text,
+  createStyles,
+  useMantineTheme,
+} from "@mantine/core";
 import {
   IconArrowsMaximize,
   IconHelp,
   IconSettings,
 } from "@tabler/icons-react";
 
+const useStyles = createStyles((theme) => ({
+  chart: {
+    height: 300,
+    width: "100%",
+  },
+  icons: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+  },
+}));
+
 const Time = () => {
-  const useStyles = createStyles((theme) => ({
-    chart: {
-      height: 300,
-      width: "100%",
-    },
-    icons: {
-      color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
-    },
-  }));
   const { classes } = useStyles();
+  const chartRef = useRef(null);
+  const theme = useMantineTheme();
 
   useEffect(() => {
-    let barChart;
+    let timeChart;
 
     const createChart = () => {
-      const labels = ["Planned Comple...", "Actual Completion", "Ahead"];
+      const labels = ["Planned Completion", "Actual Completion", "Ahead"];
       const data = {
         labels: labels,
         datasets: [
           {
             label: "Ahead",
             data: [],
-            backgroundColor: ["#4198e0"],
+            backgroundColor: [theme.colors.blue[6]],
             barThickness: 18,
             borderWidth: 1,
           },
           {
             label: "Behind",
             data: [],
-            backgroundColor: ["#f7a651"],
+            backgroundColor: [theme.colors.orange[6]],
             barThickness: 18,
             borderWidth: 1,
           },
           {
             label: "On Time",
             data: [0.5, 14, 14, "", "", ""],
-            backgroundColor: ["#70d973"],
+            backgroundColor: [theme.colors.green[6]],
             barThickness: 18,
             borderWidth: 1,
           },
         ],
       };
+
       const plugin = {
         id: "label",
         afterDatasetsDraw: (chart, args, options) => {
@@ -59,19 +69,20 @@ const Time = () => {
             const { x, y } = chart
               .getDatasetMeta(2)
               .data[index].tooltipPosition();
-            (ctx.fillStyle = data.datasets[2].backgroundColor[index]),
-              (ctx.font = "normal 16px sans-serif");
-            ctx.align = "right";
+            ctx.fillStyle = data.datasets[2].backgroundColor[index];
+            ctx.font = "normal 16px sans-serif";
+            ctx.textAlign = "right";
             ctx.textBaseline = "middle";
             const halfwidth = width / 2;
-            if (element == "") {
-              ctx.fillText(element, halfwidth + 15, y);
+            if (element === "") {
+              ctx.fillText(element, halfwidth, y);
             } else {
-              ctx.fillText(element + "%", halfwidth + 15, y);
+              ctx.fillText(element + "%", halfwidth + 55, y);
             }
           });
         },
       };
+
       const config = {
         type: "bar",
         data: data,
@@ -85,7 +96,7 @@ const Time = () => {
               stacked: true,
               ticks: {
                 stepSize: 25,
-                color: "white",
+                color: theme.colorScheme === "dark" ? "white" : "black",
                 callback: function (value) {
                   if (value < 0) {
                     value = -value;
@@ -96,7 +107,7 @@ const Time = () => {
                 },
               },
               grid: {
-                color: "#9da4ad",
+                color: theme.colorScheme === "dark" ? "#9da4ad" : "black",
                 lineWidth: 0.2,
               },
               border: {
@@ -112,7 +123,7 @@ const Time = () => {
                 display: false,
               },
               ticks: {
-                color: "white",
+                color: theme.colorScheme === "dark" ? "white" : "black",
                 crossAlign: "far",
                 font: {
                   size: 14,
@@ -125,7 +136,8 @@ const Time = () => {
               align: "start",
               labels: {
                 usePointStyle: true,
-                color: "#9da4ad",
+                color:
+                  theme.colorScheme === "dark" ? theme.colors.dark[0] : "black",
                 font: {
                   size: 14,
                 },
@@ -136,25 +148,31 @@ const Time = () => {
         plugins: [plugin],
       };
 
-      const canvas = document.getElementById("timechart");
-      const existingChart = Chart.getChart(canvas);
+      if (chartRef.current) {
+        const ctx = chartRef.current.getContext("2d");
 
-      if (existingChart) {
-        existingChart.destroy();
+        if (timeChart) {
+          timeChart.destroy();
+        }
+
+        timeChart = new Chart(ctx, config);
       }
+    };
 
-      barChart = new Chart(canvas, config);
+    const handleResize = () => {
+      createChart();
     };
 
     createChart();
+    window.addEventListener("resize", handleResize);
 
-    // Clean up function
     return () => {
-      if (barChart) {
-        barChart.destroy();
+      if (timeChart) {
+        timeChart.destroy();
       }
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <Group>
@@ -169,7 +187,7 @@ const Time = () => {
         </Group>
       </Flex>
       <div className={classes.chart}>
-        <canvas id="timechart"></canvas>
+        <canvas ref={chartRef} id="timechart"></canvas>
       </div>
     </Group>
   );

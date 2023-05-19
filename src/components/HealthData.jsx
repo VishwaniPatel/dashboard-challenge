@@ -16,7 +16,8 @@ const HealthData = () => {
         </Text>
         <IconHelp className={classes.icons} stroke={1} />
       </Flex>
-      <Table>
+
+      <Table fontSize={16}>
         <tbody>
           <tr>
             <td>Time</td>

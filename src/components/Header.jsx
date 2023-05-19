@@ -58,8 +58,7 @@ const useStyles = createStyles((theme) => ({
   link: {
     display: "block",
     lineHeight: 1,
-    padding: `${rem(8)} ${rem(12)}`,
-    borderRadius: theme.radius.sm,
+    padding: `${rem(16)} ${rem(16)}`,
     textDecoration: "none",
     color: theme.colorScheme === "dark" ? "white" : "black",
     fontSize: theme.fontSizes.sm,
@@ -72,9 +71,12 @@ const useStyles = createStyles((theme) => ({
           : theme.colors.gray[0],
     },
   },
-
+  linkIcon: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+  },
   linkActive: {
     "&, &:hover": {
+      border: `${rem(1)} solid #cbfa60`,
       backgroundColor: theme.fn.variant({
         variant: "light",
         color: theme.primaryColor,
@@ -105,16 +107,50 @@ export function HeaderUI() {
             </Avatar.Group>
           </Flex>
         </Grid.Col>
-        <Grid.Col span={4} className={classes.links}>
-          <Group spacing={10} className={classes.link}>
+        <Grid.Col span={4} className={classes.links} p={0}>
+          <Group spacing={10}>
             <Flex justify={"space-between"}>
-              <IconList stroke={1.5} size={20} color="#b6bdc6" />
-              <IconChartBar stroke={1.5} size={20} color="#b6bdc6" />
-              <IconAlignCenter stroke={1.5} size={20} color="#b6bdc6" />
-              <IconArticle stroke={1.5} size={20} color="#b6bdc6" />
-              <IconActivity stroke={1.5} size={20} color="#b6bdc6" />
-              <IconCalendarEvent stroke={1.5} size={20} color="#b6bdc6" />
-              <IconFile stroke={1.5} size={20} color="#b6bdc6" />
+              <a className={classes.link}>
+                <IconList stroke={1.5} className={classes.linkIcon} size={20} />
+              </a>
+              <a className={classes.link}>
+                <IconChartBar
+                  stroke={1.5}
+                  className={classes.linkIcon}
+                  size={20}
+                />
+              </a>
+              <a className={classes.link}>
+                <IconAlignCenter
+                  stroke={1.5}
+                  className={classes.linkIcon}
+                  size={20}
+                />
+              </a>
+              <a className={classes.link}>
+                <IconArticle
+                  stroke={1.5}
+                  className={classes.linkIcon}
+                  size={20}
+                />
+              </a>
+              <a className={`${classes.link} ${classes.linkActive}`}>
+                <IconActivity
+                  stroke={1.5}
+                  className={classes.linkIcon}
+                  size={20}
+                />
+              </a>
+              <a className={classes.link}>
+                <IconCalendarEvent
+                  stroke={1.5}
+                  className={classes.linkIcon}
+                  size={20}
+                />
+              </a>
+              <a className={classes.link}>
+                <IconFile stroke={1.5} className={classes.linkIcon} size={20} />
+              </a>
             </Flex>
           </Group>
         </Grid.Col>

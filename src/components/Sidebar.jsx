@@ -22,7 +22,7 @@ import userImg from "../assets/images/Profile.png";
 const useStyles = createStyles((theme) => ({
   sidebar: {
     color: theme.colorScheme === "dark" ? "white" : "black",
-    backgroundColor: theme.colorScheme === "dark" ? "black" : "white",
+    backgroundColor: theme.colorScheme === "dark" ? "black" : "#439add",
 
     borderRight: `${rem(1)} solid black`,
   },
@@ -63,6 +63,7 @@ const useStyles = createStyles((theme) => ({
     ...theme.fn.focusStyles(),
     display: "flex",
     alignItems: "center",
+    justifyContent: "center",
     textDecoration: "none",
     fontSize: theme.fontSizes.sm,
     color: theme.colorScheme === "dark" ? "white" : "black",
@@ -84,8 +85,7 @@ const useStyles = createStyles((theme) => ({
   },
 
   linkIcon: {
-    ref: getStylesRef("icon"),
-    color: theme.colorScheme === "dark" ? "white" : "black",
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
   },
 
   linkActive: {

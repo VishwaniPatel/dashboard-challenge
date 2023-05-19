@@ -8,6 +8,7 @@ function AppShellUI(theme) {
     <AppShell
       layout="alt"
       navbar={<Sidebar />}
+      header={<HeaderUI />}
       styles={(theme) => ({
         main: {
           backgroundColor:
@@ -17,7 +18,6 @@ function AppShellUI(theme) {
         },
       })}
     >
-      <HeaderUI />
       <Dashboard />
     </AppShell>
   );

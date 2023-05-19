@@ -1,24 +1,35 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-import { Flex, Group, Text, createStyles } from "@mantine/core";
+import {
+  Flex,
+  Group,
+  Text,
+  createStyles,
+  useMantineTheme,
+} from "@mantine/core";
 import {
   IconArrowsMaximize,
   IconHelp,
   IconSettings,
 } from "@tabler/icons-react";
+
+const useStyles = createStyles((theme) => ({
+  chart: {
+    height: 300,
+    width: "100%",
+  },
+  icons: {
+    color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
+  },
+}));
+
 const Cost = () => {
-  const useStyles = createStyles((theme) => ({
-    chart: {
-      height: 300,
-      width: "100%",
-    },
-    icons: {
-      color: theme.colorScheme === "dark" ? "#b6bdc6" : "black",
-    },
-  }));
   const { classes } = useStyles();
+  const chartRef = useRef(null);
+  const theme = useMantineTheme();
+
   useEffect(() => {
-    let barChart;
+    let costChart;
 
     const createChart = () => {
       const data = {
@@ -56,6 +67,7 @@ const Cost = () => {
           },
         ],
       };
+
       const legendMargin = {
         id: "legend_margin",
         beforeInit(chart, legend, options) {
@@ -66,6 +78,7 @@ const Cost = () => {
           };
         },
       };
+
       const config = {
         type: "bar",
         data: data,
@@ -80,9 +93,9 @@ const Cost = () => {
                 font: {
                   size: 14,
                 },
-                color: "white",
+                color: theme.colorScheme === "dark" ? "white" : "black",
                 callback: function (value, index) {
-                  if (index == 0) {
+                  if (index === 0) {
                     return "$" + value;
                   } else {
                     return value + "K";
@@ -91,7 +104,7 @@ const Cost = () => {
               },
               grid: {
                 display: true,
-                color: "#9da4ad",
+                color: theme.colorScheme === "dark" ? "#9da4ad" : "black",
                 lineWidth: 0.2,
               },
               border: {
@@ -109,7 +122,7 @@ const Cost = () => {
               align: "start",
               labels: {
                 usePointStyle: true,
-                color: "#9da4ad",
+                color: theme.colorScheme === "dark" ? "#9da4ad" : "black",
                 font: {
                   size: 14,
                 },
@@ -120,28 +133,35 @@ const Cost = () => {
         plugins: [legendMargin],
       };
 
-      const canvas = document.getElementById("costchart");
-      const existingChart = Chart.getChart(canvas);
+      if (chartRef.current) {
+        const ctx = chartRef.current.getContext("2d");
 
-      if (existingChart) {
-        existingChart.destroy();
+        if (costChart) {
+          costChart.destroy();
+        }
+
+        costChart = new Chart(ctx, config);
       }
+    };
 
-      barChart = new Chart(canvas, config);
+    const handleResize = () => {
+      createChart();
     };
 
     createChart();
+    window.addEventListener("resize", handleResize);
 
-    // Clean up function
     return () => {
-      if (barChart) {
-        barChart.destroy();
+      if (costChart) {
+        costChart.destroy();
       }
+      window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [theme]);
+
   return (
     <Group>
-      <Flex justify={"space-between"} w={"100%"}>
+      <Flex justify="space-between" w="100%">
         <Text fw={700} size={25}>
           Cost
         </Text>
@@ -152,7 +172,7 @@ const Cost = () => {
         </Group>
       </Flex>
       <div className={classes.chart}>
-        <canvas id="costchart"></canvas>
+        <canvas ref={chartRef}></canvas>
       </div>
     </Group>
   );
